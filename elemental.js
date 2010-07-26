@@ -3,20 +3,15 @@
         s = s || Object(s);
         var pos = this._pos,
             l = this._l,
-            len = s.length,
-            at = s.hasOwnProperty(len - 1) && s.hasOwnProperty(0) ? itemAt : charAt;
+            len = s.length;
         for (;pos < l + len; pos++) {
             step.call(this, at(s, pos), at(s, pos + 1), at(s, pos - 1));
         }
         this._l += len;
     }
     
-    function charAt(s, i) {
-        return s.charAt(i);
-    }
-    
-    function itemAt(s, i) {
-        return s && s[i];
+    function at(s, i) {
+        return s.charAt ? s.charAt(i) : s[i];
     }
     
     function on(name, f) {
@@ -53,7 +48,6 @@
                         this.textchunk = "";
                     break;
                     default:
-                        console.warn(c,n,p)
                         this.textchunk += c;
                     break;
                 }
