@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Elemental</title>
+        <script src="elemental.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            var p = elemental();
+            p.on("tag", function (data, attr) {
+                console.log("tag:\t", data, attr);
+            })
+            p.on("/tag", function (data, attr) {
+                console.log("/tag:\t", data, attr);
+            })
+            p.on("text", function (data, attr) {
+                console.log("text:\t", data, attr);
+            })
+            p.on("cdata", function (data, attr) {
+                console.log("cdata:\t", data, attr);
+            })
+            p.on("comment", function (data, attr) {
+                console.log("comment:\t", data, attr);
+            })
+            p.parse('<?xml version="1.0" encoding="utf-8"?>');
+            p.parse('<!-- Generator: Adobe Illustrator 13.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->');
+            p.parse('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >');
+            p.parse('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">');
+            p.parse('    <defs>');
+            p.parse('        <filter id="Blur">');
+            p.parse('            <feGaussianBlur stdDeviation="1"/>');
+            p.parse('        </filter>');
+            p.parse('    </defs>');
+            p.parse('    <!-- <rect x="0" y="0" width="320" height="200"/> -->');
+            p.parse('    <circle cx="90" cy="90" r="50" fill="#fc0" filter="url(#Blur)"/>');
+            p.parse('</svg>');
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
