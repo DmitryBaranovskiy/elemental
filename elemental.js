@@ -1,5 +1,5 @@
 /*!
- * Elemental 0.2 - Simple JavaScript Tag Parser
+ * Elemental 0.2.1 - Simple JavaScript Tag Parser
  *
  * Copyright (c) 2010 Dmitry Baranovskiy (http://dmitry.baranovskiy.com/eve/)
  * Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.
@@ -18,6 +18,9 @@
             this.raw += c;
             step.call(this, c, n, p);
         }
+        this._beforeEnd = function () {
+            step.call(this, "", "", c);
+        };
     }
 
     function at(s, i) {
@@ -30,30 +33,38 @@
         this.events[name].push(f);
     }
 
-    function event(name, data, attr) {
+    function event(name, data, extra) {
         if (typeof eve == "function") {
-            eve("elemental", name, data, attr || "", this.raw);
-            eve("elemental." + name, null, data, attr || "", this.raw);
+            eve("elemental." + name, null, data, extra || "", this.raw);
         }
         var a = this.events && this.events[name],
             i = a && a.length;
-        while (i--) {
-            this.events[name][i](data, attr || "", this.raw);
-        }
+        while (i--) try {
+            this.events[name][i](data, extra || "", this.raw);
+        } catch (e) {}
         this.raw = "";
     }
 
     function end() {
+        this._beforeEnd && this._beforeEnd();
         this.mode = "text";
         this.textchunk = "";
+        delete this._beforeEnd;
         this.event("eof");
     }
 
-    var whitespace = /[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000]/;
-
-    function step(c, n, p) {
-        switch (this.mode) {
-            case "text":
+    var whitespace = /[\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000]/,
+        fireAttrEvent = function () {
+            for (var key in this.attr) if (this.attr.hasOwnProperty(key)) {
+                this.event("attr", key, {
+                    value: this.attr[key],
+                    tagname: this.tagname,
+                    attr: this.attr
+                });
+            }
+        },
+        act = {
+            text: function (c, n, p) {
                 switch (c) {
                     case "<":
                         this.nodename = "";
@@ -68,93 +79,92 @@
                         this.textchunk += c;
                     break;
                 }
-            break;
-            case "special":
+            },
+            special: function (c, n, p) {
                 if (p == "!" && c == "-" && n == "-") {
                     this.mode = "comment start";
-                    break;
+                    return;
                 }
                 if (this.textchunk == "[CDATA" && c == "[") {
                     this.mode = "cdata";
                     this.textchunk = "";
-                    break;
+                    return;
                 }
                 if (c == ">") {
                     this.event("special", this.textchunk);
                     this.mode = "text";
                     this.textchunk = "";
-                    break;
+                    return;
                 }
                 this.textchunk += c;
-            break;
-            case "cdata":
+            },
+            cdata: function (c, n, p) {
                 if (p == "]" && c == "]" && n == ">") {
                     this.mode = "cdata end";
                     this.textchunk = this.textchunk.slice(0, -1);
-                    break;
+                    return;
                 }
                 this.textchunk += c;
-            break;
-            case "cdata end":
+            },
+            "cdata end": function (c, n, p) {
                 this.event("cdata", this.textchunk);
                 this.textchunk = "";
                 this.mode = "text";
-            break;
-            case "comment start":
+            },
+            "comment start": function (c, n, p) {
                 this.mode = "comment";
-            break;
-            case "comment":
+            },
+            comment: function (c, n, p) {
                 if (c == "-" && p == "-" && n == ">") {
                     this.mode = "comment end";
                     this.textchunk = this.textchunk.slice(0, -1);
-                    break;
+                } else {
+                    this.textchunk += c;
                 }
-                this.textchunk += c;
-            break;
-            case "comment end":
+            },
+            "comment end": function (c, n, p) {
                 this.event("comment", this.textchunk);
                 this.textchunk = "";
                 this.mode = "text";
-            break;
-            case "declaration":
+            },
+            declaration: function (c, n, p) {
                 if (c == "?" && n == ">") {
                     this.mode = "declaration end";
-                    break;
+                    return;
                 }
                 this.textchunk += c;
-            break;
-            case "declaration end":
-                this.event("declaration", this.textchunk);
+            },
+            "declaration end": function (c, n, p) {
+                this.event("comment", this.textchunk);
                 this.textchunk = "";
                 this.mode = "text";
-            break;
-            case "tag name start":
+            },
+            "tag name start": function (c, n, p) {
                 if (!whitespace.test(c)) {
                     this.mode = "tag name";
                     if (c == "/") {
                         this.mode = "close tag name start";
-                        break;
+                        return;
                     } else if (c == "!") {
                         this.mode = "special";
                         this.textchunk = "";
-                        break;
+                        return;
                     } else if (c == "?") {
                         this.mode = "declaration";
-                        break;
+                        return;
                     }
-                    return step.call(this, c, n, p);
-                } else {
-                    break;
+                    act[this.mode].call(this, c, n, p);
                 }
-            case "close tag name start":
+            },
+            "close tag name start": function (c, n, p) {
                 if (!whitespace.test(c)) {
                     this.mode = "close tag name";
                     this.tagname = "";
                     this.nodename = "";
-                } else {
-                    break;
+                    act[this.mode].call(this, c, n, p);
                 }
-            case "close tag name":
+            },
+            "close tag name": function (c, n, p) {
                 if (whitespace.test(c)) {
                     this.tagname = this.nodename;
                 } else switch (c) {
@@ -166,8 +176,8 @@
                         !this.tagname && (this.nodename += c);
                     break;
                 }
-            break;
-            case "tag name":
+            },
+            "tag name": function (c, n, p) {
                 if (whitespace.test(c)) {
                     this.tagname = this.nodename;
                     this.nodename = "";
@@ -181,15 +191,15 @@
                         this.nodename += c;
                     break;
                 }
-            break;
-            case "attr start":
+            },
+            "attr start": function (c, n, p) {
                 if (!whitespace.test(c)) {
                     this.mode = "attr";
                     this.nodename = "";
-                } else {
-                    break;
+                    act[this.mode].call(this, c, n, p);
                 }
-            case "attr":
+            },
+            attr: function (c, n, p) {
                 if (whitespace.test(c) || c == "=") {
                     this.attr[this.nodename] = "";
                     this.mode = "attr value start";
@@ -198,10 +208,12 @@
                         if (this.nodename == "/") {
                             delete this.attr["/"];
                             this.event("tag", this.tagname, this.attr);
+                            fireAttrEvent.call(this);
                             this.event("/tag", this.tagname, true);
                         } else {
                             this.nodename && (this.attr[this.nodename] = "");
                             this.event("tag", this.tagname, this.attr);
+                            fireAttrEvent.call(this);
                         }
                         this.mode = "text";
                     break;
@@ -209,19 +221,19 @@
                         this.nodename += c;
                     break;
                 }
-            break;
-            case "attr value start":
+            },
+            "attr value start": function (c, n, p) {
                 if (!whitespace.test(c)) {
                     this.mode = "attr value";
                     this.quote = false;
                     if (c == "'" || c == '"') {
                         this.quote = c;
-                        break;
+                        return;
                     }
-                } else {
-                    break;
+                    act[this.mode].call(this, c, n, p);
                 }
-            case "attr value":
+            },
+            "attr value": function (c, n, p) {
                 if (whitespace.test(c) && !this.quote) {
                     this.mode = "attr start";
                 } else if (c == ">" && !this.quote) {
@@ -238,8 +250,11 @@
                         this.attr[this.nodename] += c;
                     break;
                 }
-            break;
-        }
+            }
+        };
+
+    function step(c, n, p) {
+        act[this.mode].call(this, c, n, p);
     }
 
     function elemental() {
@@ -255,7 +270,7 @@
         out.end = end;
         return out;
     }
-    
+    elemental.version = "0.2.1";
 
     (typeof exports == "undefined" ? this : exports).elemental = elemental;
 })();
