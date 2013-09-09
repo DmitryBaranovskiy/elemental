@@ -1,7 +1,7 @@
-/*!
- * Elemental 0.2.1 - Simple JavaScript Tag Parser
+/*
+ * Elemental 0.2.2 - Simple JavaScript Tag Parser
  *
- * Copyright (c) 2010 Dmitry Baranovskiy (http://dmitry.baranovskiy.com/eve/)
+ * Copyright (c) 2010 - 2013 Dmitry Baranovskiy (http://dmitry.baranovskiy.com/)
  * Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.
  */
  
@@ -21,6 +21,7 @@
         this._beforeEnd = function () {
             step.call(this, "", "", c);
         };
+        return this;
     }
 
     function at(s, i) {
@@ -35,7 +36,7 @@
 
     function event(name, data, extra) {
         if (typeof eve == "function") {
-            eve("elemental." + name, null, data, extra || "", this.raw);
+            eve("elemental." + name + "." + data, null, data, extra || "", this.raw);
         }
         var a = this.events && this.events[name],
             i = a && a.length;
@@ -46,10 +47,12 @@
     }
 
     function end() {
-        this._beforeEnd && this._beforeEnd();
-        this.mode = "text";
-        this.textchunk = "";
-        delete this._beforeEnd;
+        step.call(this, "eof");
+        // this._beforeEnd && this._beforeEnd();
+        // this.raw && this.event("text", this.raw);
+        // this.mode = "text";
+        // this.textchunk = "";
+        // delete this._beforeEnd;
         this.event("eof");
     }
 
@@ -67,6 +70,7 @@
             text: function (c, n, p) {
                 switch (c) {
                     case "<":
+                    case "eof":
                         this.nodename = "";
                         this.attr = {};
                         this.mode = "tag name start";
@@ -90,7 +94,7 @@
                     this.textchunk = "";
                     return;
                 }
-                if (c == ">") {
+                if (c == ">" || c == "eof") {
                     this.event("special", this.textchunk);
                     this.mode = "text";
                     this.textchunk = "";
@@ -104,6 +108,9 @@
                     this.textchunk = this.textchunk.slice(0, -1);
                     return;
                 }
+                if (c == "eof") {
+                    act["cdata end"].call(this);
+                }
                 this.textchunk += c;
             },
             "cdata end": function (c, n, p) {
@@ -112,12 +119,22 @@
                 this.mode = "text";
             },
             "comment start": function (c, n, p) {
-                this.mode = "comment";
+                if (n == ">" || c == "eof") {
+                    this.event("comment", "");
+                    this.mode = "comment instant end";
+                } else {
+                    this.mode = "comment";
+                }
+            },
+            "comment instant end": function (c, n, p) {
+                this.mode = "text";
             },
             comment: function (c, n, p) {
                 if (c == "-" && p == "-" && n == ">") {
                     this.mode = "comment end";
                     this.textchunk = this.textchunk.slice(0, -1);
+                } else if (c == "eof") {
+                    this.event("comment", this.textchunk);
                 } else {
                     this.textchunk += c;
                 }
@@ -132,6 +149,9 @@
                     this.mode = "declaration end";
                     return;
                 }
+                if (c == "eof") {
+                    this.event("comment", this.textchunk);
+                }
                 this.textchunk += c;
             },
             "declaration end": function (c, n, p) {
@@ -140,6 +160,10 @@
                 this.mode = "text";
             },
             "tag name start": function (c, n, p) {
+                if (c == "eof") {
+                    this.event("text", "<");
+                    return;
+                }
                 if (!whitespace.test(c)) {
                     this.mode = "tag name";
                     if (c == "/") {
@@ -169,7 +193,7 @@
                     this.tagname = this.nodename;
                 } else switch (c) {
                     case ">":
-                        this.event("/tag", (this.tagname || this.nodename).toLowerCase());
+                        this.event("/tag", (this.tagname || this.nodename));
                         this.mode = "text";
                     break;
                     default:
@@ -184,7 +208,7 @@
                     this.mode = "attr start";
                 } else switch (c) {
                     case ">":
-                        this.event("tag", this.nodename.toLowerCase());
+                        this.event("tag", this.nodename);
                         this.mode = "text";
                     break;
                     default:
@@ -254,14 +278,16 @@
         };
 
     function step(c, n, p) {
+        c == "\n" && this.event("newline");
         act[this.mode].call(this, c, n, p);
     }
 
-    function elemental() {
+    function elemental(type) {
         var out = function (s) {
             out.parse(s);
         };
         out.mode = "text";
+        out.type = String(type || "html").toLowerCase();
         out.textchunk = "";
         out.raw = "";
         out.parse = parse;
@@ -270,7 +296,7 @@
         out.end = end;
         return out;
     }
-    elemental.version = "0.2.1";
+    elemental.version = "0.2.2";
 
     (typeof exports == "undefined" ? this : exports).elemental = elemental;
 })();
