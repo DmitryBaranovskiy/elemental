@@ -1,11 +1,11 @@
 {
-    "name"    : "elemental",
+    "name"    : "elemental.js",
     "author"  : {
         "name"  : "Dmitry Baranovskiy",
         "email" : "dmitry@baranovskiy.com",
         "url"   : "http://dmitry.baranovskiy.com"
     },
-    "version" : "0.2.2",
+    "version" : "0.2.3",
     "description" : "Simple JavaScript Tag Parser",
     "main"    : "./elemental.js",
     "dependencies": {

@@ -5,7 +5,6 @@
         <title>Elemental</title>
         <script src="elemental.js"></script>
         <script src="node_modules/eve/eve.js"></script>
-        <script src="html5.js"></script>
         
         <script>
             window.onload = function () {
@@ -18,8 +17,8 @@
                     name = "",
                     pointer = 0;
                 eve.on("elemental", function (data, attr, raw) {
-                    console.log(this == "tag");
-                    res += raw;
+                    console.log(eve.nt(), data, attr, raw);
+                    // res += raw;
                 })
                 // eve.on("elemental./tag", function (data, attr, raw) {
                 //     console.log(raw);
@@ -38,8 +37,8 @@
                 //     res += raw;
                 // })
                 b.onclick = function () {
+                    p('<test><p>pp&vartriangleleft;pp.aa</p><pp/></test>');
                     p.end();
-                    p(s.value);
                     r.value = res;
                     // window.a = res;
                 };
@@ -54,198 +53,9 @@
         </style>
     </head>
     <body>
-        <textarea id="source">&lt;!DOCTYPE html&gt;
-        &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;
-        &lt;head&gt;
-        	&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
-        	&lt;meta http-equiv=&quot;pics-label&quot; content=&#x27;(pics-1.1 &quot;http://www.icra.org/ratingsv02.html&quot; l gen true for &quot;http://www.apple.com&quot; r (cz 1 lz 1 nz 1 oz 1 vz 1) &quot;http://www.rsac.org/ratingsv01.html&quot; l gen true for &quot;http://www.apple.com&quot; r (n 0 s 0 v 0 l 0))&#x27; /&gt;
-        	&lt;meta name=&quot;Author&quot; content=&quot;Apple Inc.&quot; /&gt;
-        	&lt;meta name=&quot;viewport&quot; content=&quot;width=1024&quot; /&gt;
-        	&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=EmulateIE7&quot; /&gt;
-
-        	&lt;title&gt;Apple&lt;/title&gt;
-        	&lt;meta name=&quot;omni_page&quot; content=&quot;Apple - Index&quot; /&gt;
-        	&lt;meta name=&quot;Keywords&quot; content=&quot;Apple&quot; /&gt;
-        	&lt;meta name=&quot;Description&quot; content=&quot;Apple designs and creates iPod and iTunes, Mac laptop and desktop computers, the OS X operating system, and the revolutionary iPhone and iPad.&quot; /&gt;
-        	&lt;script type=&quot;text/javascript&quot;&gt;
-        		var gomez = {
-        			gs: new Date().getTime(),
-        			acctId:&#x27;C2C738&#x27;,
-        			pgId:&#x27;Home Page&#x27;,
-        			grpId:&#x27;&#x27;
-        		};
-        	&lt;/script&gt;
-        	&lt;link rel=&quot;home&quot; href=&quot;http://www.apple.com/&quot; /&gt;
-        	&lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;RSS&quot; href=&quot;http://images.apple.com/main/rss/hotnews/hotnews.rss&quot; /&gt;
-        	&lt;link rel=&quot;index&quot; href=&quot;http://www.apple.com/sitemap/&quot; /&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/lib/prototype.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/lib/scriptaculous.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/browserdetect.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/apple_core.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/search_decorator.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/promomanager.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/home/scripts/ticker.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/home/scripts/promotracker.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/lib/event_mixins.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/swap_view.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/scripts/view_master_tracker.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-
-        	&lt;link rel=&quot;stylesheet&quot; href=&quot;http://images.apple.com/global/styles/base.css&quot; type=&quot;text/css&quot; /&gt;
-        	&lt;link rel=&quot;stylesheet&quot; href=&quot;http://images.apple.com/home/styles/home.css&quot; type=&quot;text/css&quot; /&gt;
-        &lt;/head&gt;
-        &lt;body id=&quot;home&quot;&gt;
-        	&lt;script src=&quot;http://images.apple.com/global/nav/scripts/shortcuts.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-        &lt;script type=&quot;text/javascript&quot;&gt;
-        	var searchSection = &#x27;global&#x27;;
-        	var searchCountry = &#x27;us&#x27;;
-        &lt;/script&gt;
-        &lt;div id=&quot;globalheader&quot; class=&quot;apple&quot;&gt;
-        	&lt;!--googleoff: all--&gt;
-        	&lt;ul id=&quot;globalnav&quot;&gt;
-        		&lt;li id=&quot;gn-apple&quot;&gt;&lt;a href=&quot;/&quot;&gt;Apple&lt;/a&gt;&lt;/li&gt;
-        		&lt;li id=&quot;gn-store&quot;&gt;&lt;a href=&quot;http://store.apple.com&quot;&gt;Store&lt;/a&gt;&lt;/li&gt;
-        		&lt;li id=&quot;gn-mac&quot;&gt;&lt;a href=&quot;/mac/&quot;&gt;Mac&lt;/a&gt;&lt;/li&gt;
-        		&lt;li id=&quot;gn-ipod&quot;&gt;&lt;a href=&quot;/ipod/&quot;&gt;iPod&lt;/a&gt;&lt;/li&gt;
-        		&lt;li id=&quot;gn-iphone&quot;&gt;&lt;a href=&quot;/iphone/&quot;&gt;iPhone&lt;/a&gt;&lt;/li&gt;
-        		&lt;li id=&quot;gn-ipad&quot;&gt;&lt;a href=&quot;/ipad/&quot;&gt;iPad&lt;/a&gt;&lt;/li&gt;
-        		&lt;li id=&quot;gn-itunes&quot;&gt;&lt;a href=&quot;/itunes/&quot;&gt;iTunes&lt;/a&gt;&lt;/li&gt;
-        		&lt;li id=&quot;gn-support&quot;&gt;&lt;a href=&quot;/support/&quot;&gt;Support&lt;/a&gt;&lt;/li&gt;
-        	&lt;/ul&gt;
-        	&lt;!--googleon: all--&gt;
-        	&lt;div id=&quot;globalsearch&quot;&gt;
-        		&lt;form action=&quot;http://searchcgi.apple.com/cgi-bin/sp/nph-searchpre11.pl&quot; method=&quot;post&quot; class=&quot;search&quot; id=&quot;g-search&quot;&gt;
-        			&lt;div&gt;
-        				&lt;input type=&quot;hidden&quot; value=&quot;utf-8&quot; name=&quot;oe&quot; id=&quot;search-oe&quot;&gt;
-        				&lt;input type=&quot;hidden&quot; value=&quot;p&quot; name=&quot;access&quot; id=&quot;search-access&quot;&gt;
-        				&lt;input type=&quot;hidden&quot; value=&quot;us_only&quot; name=&quot;site&quot; id=&quot;search-site&quot;&gt;
-        				&lt;input type=&quot;hidden&quot; value=&quot;lang_en&quot; name=&quot;lr&quot; id=&quot;search-lr&quot;&gt;
-        				&lt;label for=&quot;sp-searchtext&quot;&gt;&lt;span class=&quot;prettyplaceholder&quot;&gt;Search&lt;/span&gt;&lt;input type=&quot;search&quot; name=&quot;q&quot; id=&quot;sp-searchtext&quot; class=&quot;g-prettysearch applesearch&quot; accesskey=&quot;s&quot;&gt;&lt;/label&gt;
-        			&lt;/div&gt;
-        		&lt;/form&gt;
-        		&lt;div id=&quot;sp-results&quot;&gt;&lt;div class=&quot;inside&quot;&gt;&lt;/div&gt;&lt;/div&gt;
-        	&lt;/div&gt;
-        &lt;/div&gt;
-
-        	&lt;div id=&quot;top&quot;&gt;
-        &lt;!-- SiteCatalyst code version: H.8. Copyright 1997-2006 Omniture, Inc. --&gt;
-        &lt;script type=&quot;text/javascript&quot;&gt;
-        /* RSID: */
-        var s_account=&quot;appleglobal,applehome&quot;
-        &lt;/script&gt;
-
-        &lt;script type=&quot;text/javascript&quot; src=&quot;http://images.apple.com/global/metrics/js/s_code_h.js&quot;&gt;&lt;/script&gt;
-
-        &lt;script type=&quot;text/javascript&quot;&gt;
-        s.pageName=AC.Tracking.pageName()+&quot; (US)&quot;;
-        s.server=&quot;&quot;
-        s.channel=&quot;www.us.homepage&quot;
-        s.pageType=&quot;&quot;
-        s.prop1=&quot;&quot;
-        s.prop2=&quot;&quot;
-        s.prop3=&quot;&quot;
-        s.prop4=document.URL;
-        s.prop5=navigator.platform;
-
-        /* E-commerce Variables */
-        s.campaign=&quot;&quot;
-        s.state=&quot;&quot;
-        s.zip=&quot;&quot;
-        s.events=&quot;&quot;
-        s.products=&quot;&quot;
-        s.purchaseID=&quot;&quot;
-        s.eVar1=&quot;&quot;
-        s.eVar2=&quot;&quot;
-        s.eVar3=&quot;&quot;
-        s.eVar4=&quot;&quot;
-        s.eVar5=&quot;&quot;
-
-
-        /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
-        var s_code=s.t();if(s_code)document.write(s_code)&lt;/script&gt;
-        &lt;!-- End SiteCatalyst code version: H.8. --&gt;
-        &lt;/div&gt;
-
-        	&lt;div id=&quot;billboard&quot;&gt;
-        		&lt;h1&gt;iPhone 4 is here.&lt;/h1&gt;
-
-        		&lt;div class=&quot;billboard&quot; id=&quot;billboard-1&quot;&gt;
-        			&lt;a href=&quot;/iphone/&quot;&gt;
-        				&lt;img src=&quot;http://images.apple.com/home/images/iphone_hero_20100624.jpg&quot; alt=&quot;&quot; width=&quot;980&quot; height=&quot;652&quot; /&gt;
-        			&lt;/a&gt;
-        			&lt;ul class=&quot;videos&quot;&gt;
-        				&lt;li&gt;
-        					&lt;a href=&quot;/iphone/gallery/ads.html&quot; class=&quot;more&quot;&gt;
-        						&lt;span class=&quot;play&quot;&gt;&lt;/span&gt;
-        						&lt;img src=&quot;http://images.apple.com/home/images/iphone_thumb_ad_20100715.jpg&quot; alt=&quot;&quot; width=&quot;79&quot; height=&quot;49&quot; /&gt;&lt;br/&gt;
-        						&lt;em&gt;Watch the&lt;br /&gt;new TV ads&lt;/em&gt;
-        					&lt;/a&gt;
-        				&lt;/li&gt;
-        				&lt;li&gt;
-        					&lt;a href=&quot;/iphone/design/#design-video&quot; class=&quot;more&quot;&gt;
-        						&lt;span class=&quot;play&quot;&gt;&lt;/span&gt;
-        						&lt;img src=&quot;http://images.apple.com/home/images/iphone_thumb_video_20100607.jpg&quot; alt=&quot;&quot; width=&quot;79&quot; height=&quot;49&quot; /&gt;&lt;br/&gt;
-        						&lt;em&gt;Watch the&lt;br /&gt;iPhone 4 video&lt;/em&gt;
-        					&lt;/a&gt;
-        				&lt;/li&gt;
-        			&lt;/ul&gt;
-        		&lt;/div&gt;
-        	&lt;/div&gt;
-
-        	&lt;div class=&quot;wrapper&quot;&gt;
-        		&lt;div id=&quot;ticker&quot;&gt;&lt;p&gt;&lt;a href=&quot;/hotnews/&quot; id=&quot;ticker-headline&quot;&gt;Hot News Headlines&lt;/a&gt; &lt;a href=&quot;/hotnews/&quot; id=&quot;news-link&quot;&gt;Read the latest news and information from Apple.&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
-        		&lt;a href=&quot;http://images.apple.com/hotnews/feeds/ticker.rss&quot; id=&quot;ticker-rss-link&quot;&gt;&lt;/a&gt;
-        	&lt;/div&gt;
-
-        	&lt;div id=&quot;promos&quot;&gt;
-        		&lt;a class=&quot;promo1&quot; href=&quot;/iphone/case-program/&quot;&gt;&lt;img src=&quot;http://images.apple.com/home/images/promo_iphone_case_program_20100723.jpg&quot; width=&quot;236&quot; height=&quot;155&quot; alt=&quot;iPhone 4 Case Program. Learn more.&quot; /&gt;&lt;/a&gt;
-        		&lt;a class=&quot;promo2&quot; href=&quot;/iphone/softwareupdate/&quot;&gt;&lt;img src=&quot;http://images.apple.com/home/images/promo_ios401_20100716.jpg&quot; width=&quot;236&quot; height=&quot;155&quot; alt=&quot;iOS 4.0.1 Software Update. Download it now.&quot; /&gt;&lt;/a&gt;
-        		&lt;a class=&quot;promo3&quot; href=&quot;/imac/&quot;&gt;&lt;img src=&quot;http://images.apple.com/home/images/promo_imac_20100727.jpg&quot; width=&quot;236&quot; height=&quot;155&quot; alt=&quot;The new iMac. The ultimate all-in-one. Turbocharged.&quot; /&gt;&lt;/a&gt;
-        		&lt;a class=&quot;promo4&quot; href=&quot;http://store.apple.com/us/go/promo/backtoschool?aid=www-naus-bts2010-00051&quot;&gt;&lt;img src=&quot;http://images.apple.com/home/images/promo_backtoschool_20100603.jpg&quot; width=&quot;236&quot; height=&quot;155&quot; alt=&quot;Buy a Mac for college, and get a free iPod touch. Terms apply.&quot; /&gt;&lt;/a&gt;
-        	&lt;/div&gt;
-
-        	&lt;div id=&quot;homefooter&quot;&gt;
-        		&lt;div id=&quot;links&quot;&gt;
-        			&lt;p class=&quot;left&quot;&gt;Shop the &lt;a href=&quot;/store/&quot;&gt;Apple Online Store&lt;/a&gt; (1-800-MY-APPLE), visit an &lt;a href=&quot;/retail/&quot;&gt;Apple Retail Store&lt;/a&gt;, or find a &lt;a href=&quot;/buy/&quot;&gt;reseller&lt;/a&gt;.&lt;/p&gt;
-        			&lt;ul class=&quot;piped right&quot;&gt;
-        				&lt;li&gt;&lt;a href=&quot;/sitemap/&quot; class=&quot;first&quot;&gt;Site Map&lt;/a&gt;&lt;/li&gt;
-        				&lt;li&gt;&lt;a href=&quot;/hotnews/&quot;&gt;Hot News&lt;/a&gt;&lt;/li&gt;
-        				&lt;li&gt;&lt;a href=&quot;/rss/&quot;&gt;RSS Feeds&lt;/a&gt;&lt;/li&gt;
-        				&lt;li&gt;&lt;a href=&quot;/pr/&quot;&gt;Media Info&lt;/a&gt;&lt;/li&gt;
-        				&lt;li&gt;&lt;a href=&quot;/environment/&quot;&gt;Environment&lt;/a&gt;&lt;/li&gt;
-        				&lt;li&gt;&lt;a href=&quot;/jobs/&quot;&gt;Job Opportunities&lt;/a&gt;&lt;/li&gt;
-        				&lt;li&gt;&lt;a href=&quot;/contact/&quot;&gt;Contact Us&lt;/a&gt;&lt;/li&gt;
-        			&lt;/ul&gt;
-        		&lt;/div&gt;&lt;!--/links--&gt;
-
-        		&lt;div class=&quot;sosumi&quot;&gt;
-        			&lt;p class=&quot;copyright&quot;&gt;Copyright &copy; 2010 Apple Inc. All rights reserved.&lt;/p&gt;
-        			&lt;ul class=&quot;piped&quot;&gt;
-        				&lt;li&gt;&lt;a href=&quot;/legal/&quot; class=&quot;first&quot;&gt;Terms of Use&lt;/a&gt;&lt;/li&gt;
-        				&lt;li&gt;&lt;a href=&quot;/legal/privacy/&quot;&gt;Privacy Policy&lt;/a&gt;&lt;/li&gt;
-        			&lt;/ul&gt;
-        			&lt;div id=&quot;worldwide&quot;&gt;
-        				&lt;a href=&quot;/choose-your-country/&quot;&gt;
-        					&lt;img src=&quot;http://images.apple.com/home/elements/worldwide_us.png&quot; alt=&quot;United States of America&quot; height=&quot;22&quot; width=&quot;22&quot; /&gt;
-        					&lt;span class=&quot;more&quot;&gt;Choose your country or region&lt;/span&gt;
-        				&lt;/a&gt;
-        			&lt;/div&gt;
-        		&lt;/div&gt;&lt;!--/sosumi--&gt;
-        	&lt;/div&gt;&lt;!--/homefooter--&gt;
-
-        	&lt;!-- Start of DoubleClick Spotlight Tag: Please do not remove--&gt;
-        	&lt;!-- Creation Date:11/19/07 --&gt;
-        	&lt;script type=&quot;text/javascript&quot;&gt;
-        		var axel = Math.random()+&quot;&quot;;
-        		var a = axel * 10000000000000;
-        		document.write(&#x27;&lt;iframe src=&quot;http://fls.doubleclick.net/activityi;src=1566767;type=apple663;cat=apple249;ord=&#x27;+ a + &#x27;?&quot; width=1 height=1 frameborder=0&gt;&lt;\/iframe&gt;&#x27;);
-        	&lt;/script&gt;
-        	&lt;noscript&gt;
-        	&lt;iframe src=&quot;http://fls.doubleclick.net/activityi;src=1566767;type=apple663;cat=apple249;ord=1?&quot; width=1 height=1 frameborder=0&gt;&lt;/iframe&gt;
-        	&lt;/noscript&gt;
-        	&lt;!-- End of DoubleClick Spotlight Tag: Please do not remove--&gt;
-        &lt;/body&gt;
-        &lt;/html&gt;</textarea>
+        <textarea id="source">
+            <test><p>p</p><pp/></test>
+        </textarea>
         <button id="action">Parse</button>
         <textarea id="result"></textarea>
     </body>
