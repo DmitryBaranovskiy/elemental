@@ -5,7 +5,7 @@
         "email" : "dmitry@baranovskiy.com",
         "url"   : "http://dmitry.baranovskiy.com"
     },
-    "version" : "0.2.3",
+    "version" : "0.2.4",
     "description" : "Simple JavaScript Tag Parser",
     "main"    : "./elemental.js",
     "dependencies": {
